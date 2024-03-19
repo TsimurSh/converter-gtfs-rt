@@ -2,4 +2,4 @@ server:
   port: 8889
 api:
   ## Path to save protobuf file
-  out-path: ./kombus_gtfs_vp.pb
+  out-path: /var/www/goeuropa.net/gtfsrt/kombus_gtfs_vp.pb
