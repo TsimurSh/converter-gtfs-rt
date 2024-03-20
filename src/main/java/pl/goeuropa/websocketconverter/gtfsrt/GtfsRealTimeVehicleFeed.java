@@ -19,7 +19,7 @@ public class GtfsRealTimeVehicleFeed {
         GtfsRealtime.FeedHeader.Builder feedheader = GtfsRealtime.FeedHeader.newBuilder()
                 .setGtfsRealtimeVersion("1.0")
                 .setIncrementality(GtfsRealtime.FeedHeader.Incrementality.FULL_DATASET)
-                .setTimestamp(System.currentTimeMillis() / MS_PER_SEC);
+                .setTimestamp(System.currentTimeMillis());
         message.setHeader(feedheader);
 
         vehicles.forEach((key, vehicle) -> {
@@ -28,7 +28,7 @@ public class GtfsRealTimeVehicleFeed {
                     .setId(String.valueOf(key == null ? vehicle.getVehicleId() : key));
 
             try {
-                // the Vehicle
+                // the Vehicle data input
                 GtfsRealtime.VehiclePosition vehiclePosition = createVehiclePosition(vehicle);
                 vehiclePositionEntity.setVehicle(vehiclePosition);
                 message.addEntity(vehiclePositionEntity);
@@ -42,16 +42,20 @@ public class GtfsRealTimeVehicleFeed {
     private GtfsRealtime.VehiclePosition createVehiclePosition(Vehicle vehicleData) throws ParseException {
 
         GtfsRealtime.VehiclePosition.Builder vehiclePosition = GtfsRealtime.VehiclePosition.newBuilder();
+        // the Description information
+        GtfsRealtime.VehicleDescriptor.Builder vehicleDescriptor = GtfsRealtime.VehicleDescriptor.newBuilder()
+                .setId(String.valueOf(vehicleData.getVehicleId()));
         // the Position information
         GtfsRealtime.Position.Builder position =
                 GtfsRealtime.Position.newBuilder()
                         .setLatitude((float) vehicleData.getLatitude())
-                        .setLongitude((float) vehicleData.getLongitude());
+                        .setLongitude((float) vehicleData.getLongitude())
+                        .setSpeed((float) vehicleData.getSpeed())
+                        .setBearing(vehicleData.getHeading());
 
         vehiclePosition.setPosition(position);
-
-        long gpsTime = vehicleData.getTimestamp();
-        vehiclePosition.setTimestamp(gpsTime / MS_PER_SEC);
+        vehiclePosition.setVehicle(vehicleDescriptor);
+        vehiclePosition.setTimestamp(vehicleData.getTimestamp() * MS_PER_SEC);
 
         return vehiclePosition.build();
     }
