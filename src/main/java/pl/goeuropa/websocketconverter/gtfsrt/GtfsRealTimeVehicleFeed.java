@@ -50,7 +50,7 @@ public class GtfsRealTimeVehicleFeed {
                 GtfsRealtime.Position.newBuilder()
                         .setLatitude((float) vehicleData.getLatitude())
                         .setLongitude((float) vehicleData.getLongitude())
-                        .setSpeed((float) vehicleData.getSpeed())
+                        .setSpeed((float) vehicleData.getSpeed() / 10)
                         .setBearing(vehicleData.getHeading());
 
         vehiclePosition.setPosition(position);
