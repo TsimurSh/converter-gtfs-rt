@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-public class WebsocketConverterApi {
+public class ConverterGtfsApi {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebsocketConverterApi.class, args);
+        SpringApplication.run(ConverterGtfsApi.class, args);
     }
 
     @Bean
