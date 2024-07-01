@@ -3,6 +3,3 @@ server:
 api:
   ## Path to save protobuf file
   out-path: /var/www/goeuropa.net/gtfsrt/kombus_gtfs_vp.pb
-spring:
-  jmx:
-    enabled: false

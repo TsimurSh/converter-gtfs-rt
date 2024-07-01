@@ -1,4 +1,4 @@
-package pl.goeuropa.websocketconverter.models;
+package pl.goeuropa.converter.models;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

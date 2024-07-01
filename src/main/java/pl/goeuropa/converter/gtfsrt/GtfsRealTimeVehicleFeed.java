@@ -1,9 +1,9 @@
-package pl.goeuropa.websocketconverter.gtfsrt;
+package pl.goeuropa.converter.gtfsrt;
 
 import com.google.transit.realtime.GtfsRealtime;
 import lombok.extern.slf4j.Slf4j;
-import pl.goeuropa.websocketconverter.cache.CacheManager;
-import pl.goeuropa.websocketconverter.models.Vehicle;
+import pl.goeuropa.converter.models.Vehicle;
+import pl.goeuropa.converter.repository.VehicleRepository;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -60,8 +60,8 @@ public class GtfsRealTimeVehicleFeed {
         return vehiclePosition.build();
     }
 
-    public GtfsRealtime.FeedMessage createMessage(CacheManager cache) {
-        Map<Integer, Vehicle> vehicles = cache.getVehicleCacheMap();
+    public GtfsRealtime.FeedMessage create(VehicleRepository repository) {
+        Map<Integer, Vehicle> vehicles = repository.getVehicleCacheMap();
         return createMessage(vehicles);
     }
 }

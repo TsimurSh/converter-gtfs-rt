@@ -1,19 +1,19 @@
-package pl.goeuropa.websocketconverter.cache;
+package pl.goeuropa.converter.repository;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.goeuropa.websocketconverter.models.Vehicle;
+import pl.goeuropa.converter.models.Vehicle;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 @Slf4j
 @Component
-public class CacheManager{
+public class VehicleRepository {
 
-    private final Map<Integer, Vehicle> vehicleCacheMap = new HashMap<>();
+    private final Map<Integer, Vehicle> vehicleCacheMap = new ConcurrentHashMap<>();
 
     public void add(Vehicle newUpdate) {
         log.info("-- Add a vehicle's updates: {}", newUpdate);
