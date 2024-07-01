@@ -16,7 +16,7 @@ public class CacheManager{
     private final Map<Integer, Vehicle> vehicleCacheMap = new HashMap<>();
 
     public void add(Vehicle newUpdate) {
-        log.info("-- Add to cache a vehicle object : {}", newUpdate);
+        log.info("-- Add a vehicle's updates: {}", newUpdate);
         vehicleCacheMap.put(newUpdate.getVehicleId(), newUpdate);
     }
 }
