@@ -14,9 +14,8 @@ public class VehicleUpdateServiceImpl implements VehicleUpdateService {
 
     private final VehicleRepository vehicleRepository;
 
-
     @Override
-    public String getUpdatedVehiclePositions() {
+    public String getVehiclePositions() {
         try {
             GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed().create(vehicleRepository);
             log.info("Wrote: {} entities.", feed.getEntityCount());

@@ -23,7 +23,7 @@ public class ScheduledTaskService {
 
 
     @Scheduled(cron = "*/5 * * * * *")
-    public void updateVehiclesPositionsProtoFile() {
+    public void updateVehiclesPositionsProtoBufFile() {
         try {
             GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed().create(vehicleRepository);
             log.info("Wrote: {} entities.", feed.getEntityCount());
