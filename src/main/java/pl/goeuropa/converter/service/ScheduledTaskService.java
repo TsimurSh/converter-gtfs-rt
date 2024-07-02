@@ -12,11 +12,10 @@ import pl.goeuropa.converter.repository.VehicleRepository;
 import java.io.FileOutputStream;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class ScheduledTaskService {
 
-    private final VehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository = VehicleRepository.getInstance();
 
     @Value("${api.out-path}")
     private String OUTPUT_PATH;
@@ -25,8 +24,8 @@ public class ScheduledTaskService {
     @Scheduled(cron = "*/5 * * * * *")
     public void updateVehiclesPositionsProtoBufFile() {
         try {
-            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed().create(vehicleRepository);
-            log.info("Wrote: {} entities.", feed.getEntityCount());
+            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed().create(vehicleRepository.getVehiclesList());
+            log.info("Wrote: {} entities.", feed.toString());
 
             //Writing to protobuf file
             var toFile = new FileOutputStream(OUTPUT_PATH);
