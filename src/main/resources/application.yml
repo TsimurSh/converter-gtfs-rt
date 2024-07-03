@@ -1,10 +1,14 @@
 server:
   port: 8800
 api:
-  ## Base URL
-  base-url: https://login.globalteam.pl/api/v1/unit/list.json
-  ## Path to save protobuf file
-  out-path: /var/www/goeuropa.net/gtfsrt/kombus_gtfs_vp.pb
   security:
     ## Set token here
     token: ""
+
+  ## Source base URL
+  base-url: https://login.globalteam.pl/api/v1/unit/list.json
+  ## Path to save protobuf file
+  out-path: /var/www/goeuropa.net/gtfsrt/kombus_gtfs_vp.pb
+  ## Interval to refresh proto-buf file
+  refresh-interval: 6
+  time-zone: "Europe/Warsaw"
