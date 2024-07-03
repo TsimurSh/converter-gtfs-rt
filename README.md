@@ -1,5 +1,5 @@
 ## Getting Started
-set an out put path  ->  src/main/resources/application.yml
+Setup properties  ->  src/main/resources/application.yml
 
 ## Run 🏎️
 
