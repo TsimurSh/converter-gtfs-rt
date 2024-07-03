@@ -2,6 +2,7 @@ package pl.goeuropa.converter.service;
 
 import com.google.transit.realtime.GtfsRealtime;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.goeuropa.converter.gtfsrt.GtfsRealTimeVehicleFeed;
 import pl.goeuropa.converter.repository.VehicleRepository;
@@ -12,12 +13,15 @@ public class VehicleUpdateServiceImpl implements VehicleUpdateService {
 
     private final VehicleRepository vehicleRepository = VehicleRepository.getInstance();
 
+    @Value("${api.time-zone}")
+    private String TZ;
+
     @Override
     public String getVehiclePositions() {
         try {
             GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
-                    .create(vehicleRepository.getVehiclesList());
-            log.info("Wrote: {} entities.", feed.getEntityCount());
+                    .create(vehicleRepository.getVehiclesList(), TZ);
+            log.info("Get : {} entities.", feed.getEntityList().size());
 
             return feed.toString();
         } catch (Exception ex) {

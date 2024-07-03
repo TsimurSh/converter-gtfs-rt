@@ -8,22 +8,24 @@ import java.math.BigInteger;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class GtfsRealTimeVehicleFeed {
 
     private static final int MS_PER_SEC = 1_000;
 
-    public GtfsRealtime.FeedMessage create(List<LinkedHashMap<String, Object>> vehicles) {
-        log.debug("GTFS-RT successfully created");
+    private static String TZ;
+
+    public GtfsRealtime.FeedMessage create(List<Map<String, Object>> vehicles, String timeZone) {
+        TZ = timeZone;
         return createMessage(vehicles);
     }
 
-    private GtfsRealtime.FeedMessage createMessage(List<LinkedHashMap<String, Object>> vehicles) {
-        GtfsRealtime.FeedMessage.Builder message = GtfsRealtime.FeedMessage.newBuilder();
+    private GtfsRealtime.FeedMessage createMessage(List<Map<String, Object>> vehicles) {
 
+        GtfsRealtime.FeedMessage.Builder message = GtfsRealtime.FeedMessage.newBuilder();
         GtfsRealtime.FeedHeader.Builder feedheader = GtfsRealtime.FeedHeader.newBuilder()
                 .setGtfsRealtimeVersion("1.0")
                 .setIncrementality(GtfsRealtime.FeedHeader.Incrementality.FULL_DATASET)
@@ -45,10 +47,11 @@ public class GtfsRealTimeVehicleFeed {
                 log.error("Something get wrong while parsing vehicle data", ex);
             }
         });
+        log.debug("GTFS-RT successfully created");
         return message.build();
     }
 
-    private GtfsRealtime.VehiclePosition createVehiclePosition(LinkedHashMap<String, Object> vehicle) {
+    private GtfsRealtime.VehiclePosition createVehiclePosition(Map<String, Object> vehicle) {
 
         GtfsRealtime.VehiclePosition.Builder vehiclePosition = GtfsRealtime.VehiclePosition.newBuilder();
         // the Description information
@@ -64,21 +67,22 @@ public class GtfsRealTimeVehicleFeed {
 
         vehiclePosition.setPosition(position);
         vehiclePosition.setVehicle(vehicleDescriptor);
-        vehiclePosition.setTimestamp(getTimestamp((String) vehicle.get("last_update")) * MS_PER_SEC);
-
+        vehiclePosition.setTimestamp(getTimestamp((String) vehicle.get("last_update")) * MS_PER_SEC
+        );
         return vehiclePosition.build();
     }
 
     private float getFloat(Object object) throws ClassCastException {
         if (object instanceof BigDecimal bigDecimal) {
             return bigDecimal.floatValue();
+        } else if (object instanceof BigInteger bigInteger) {
+            return bigInteger.floatValue();
         }
-        BigInteger bigInteger = (BigInteger) object;
-        return bigInteger.floatValue();
+        return 0.0f;
     }
 
     private long getTimestamp(String lastUpdate) {
-        ZoneId targetZoneId = ZoneId.of("Europe/Warsaw");
+        ZoneId targetZoneId = ZoneId.of(TZ);
         Instant instant = Instant.parse(lastUpdate);
         ZonedDateTime zonedDateTime = instant.atZone(targetZoneId);
 

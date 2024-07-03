@@ -11,6 +11,7 @@ import pl.goeuropa.converter.repository.VehicleRepository;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -34,8 +35,8 @@ public class GlobalTeamClient {
 
             var data = (LinkedHashMap) jsonObjectData.object().get("data");
 
-            repository.setVehiclesList((List<LinkedHashMap<String, Object>>) data.get("units"));
-            log.info("Get {} objects with vehicle locations", ((List<?>) data.get("units")).size());
+            repository.setVehiclesList((List<Map<String, Object>>) data.get("units"));
+            log.debug("Get {} objects with vehicle locations", ((List<?>) data.get("units")).size());
 
         } catch (Exception e) {
             log.warn(e.getMessage());

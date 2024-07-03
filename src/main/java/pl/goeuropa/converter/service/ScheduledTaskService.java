@@ -1,7 +1,6 @@
 package pl.goeuropa.converter.service;
 
 import com.google.transit.realtime.GtfsRealtime;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,6 +9,7 @@ import pl.goeuropa.converter.gtfsrt.GtfsRealTimeVehicleFeed;
 import pl.goeuropa.converter.repository.VehicleRepository;
 
 import java.io.FileOutputStream;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -20,17 +20,21 @@ public class ScheduledTaskService {
     @Value("${api.out-path}")
     private String OUTPUT_PATH;
 
+    @Value("${api.time-zone}")
+    private String TZ;
 
-    @Scheduled(cron = "*/5 * * * * *")
+
+    @Scheduled(fixedRateString = "${api.refresh-interval}",
+            timeUnit = TimeUnit.SECONDS)
     public void updateVehiclesPositionsProtoBufFile() {
-        try {
-            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed().create(vehicleRepository.getVehiclesList());
-            log.info("Wrote: {} entities.", feed.toString());
+        try (FileOutputStream toFile = new FileOutputStream(OUTPUT_PATH)) {
+
+            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
+                    .create(vehicleRepository.getVehiclesList(), TZ);
+            log.info("Write to file: {} entities.", feed.getEntityList().size());
 
             //Writing to protobuf file
-            var toFile = new FileOutputStream(OUTPUT_PATH);
             feed.writeTo(toFile);
-            toFile.close();
 
         } catch (Exception ex) {
             log.error(ex.getMessage());
