@@ -1,12 +1,16 @@
 ## Getting Started
-Setup properties  ->  src/main/resources/application.yml
+- Setup properties  ->  src/main/resources/application.yml
 
-## Run 🏎️
+## Run 
 
-requirement:  
-- `java 17 +` installed.
+Requirement:  
+- `java 17 +` - installed.
 
+Command:
 ```shell
 ./gradlew bootRun
 ```
+## Check
+URL:
 
+[last updates in text format](localhost:8800/kombus/vehicles.text)
