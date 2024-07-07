@@ -24,11 +24,14 @@ public class GlobalTeamClient {
     @Value("${api.security.token}")
     private String TOKEN;
 
+    @Value("${api.param}")
+    private String PARAM;
+
     @Scheduled(fixedDelay = 5_000)
     public void getDataFromGlobalteam() {
         try {
             var response = restClient.get()
-                    .uri("?key=" + TOKEN)
+                    .uri("?{PARAM}=" + TOKEN, PARAM)
                     .retrieve()
                     .body(String.class);
             JSONParser jsonObjectData = new JSONParser(response);

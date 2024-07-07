@@ -6,9 +6,11 @@ api:
     token: ""
 
   ## Source base URL
-  base-url: https://login.globalteam.pl/api/v1/unit/list.json
+  base-url:
+  ## Parameter
+  param:
   ## Path to save protobuf file
-  out-path: /var/www/goeuropa.net/gtfsrt/kombus_gtfs_vp.pb
+  out-path:
   ## Interval (sec) to refresh proto-buf file
   refresh-interval: 6
   time-zone: "Europe/Warsaw"

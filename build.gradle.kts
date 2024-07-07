@@ -20,12 +20,8 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
 
-
-
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-
-    implementation ("org.springdoc","springdoc-openapi-starter-webmvc-ui","2.5.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jeasy:easy-random-core:5.0.0")
