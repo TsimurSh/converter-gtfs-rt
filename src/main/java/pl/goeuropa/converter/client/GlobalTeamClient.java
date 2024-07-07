@@ -24,7 +24,7 @@ public class GlobalTeamClient {
     @Value("${api.security.token}")
     private String TOKEN;
 
-    @Value("${api.param}")
+    @Value("${api.uri.param}")
     private String PARAM;
 
     @Scheduled(fixedDelay = 5_000)
