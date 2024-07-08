@@ -8,8 +8,7 @@ api:
   ## Source base URL
   base-url:
   ## Parameter
-  param:
-    uri:
+  uri-param: key
   ## Path to save protobuf file
   out-path:
   ## Interval (sec) to refresh proto-buf file

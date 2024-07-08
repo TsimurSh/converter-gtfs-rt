@@ -13,4 +13,4 @@ Command:
 ## Check
 URL:
 
-[last updates in text format](localhost:8800/kombus/vehicles.text)
+localhost:8800/kombus/vehicles.text
