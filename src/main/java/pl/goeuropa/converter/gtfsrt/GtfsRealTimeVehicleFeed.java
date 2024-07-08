@@ -35,9 +35,9 @@ public class GtfsRealTimeVehicleFeed {
         vehicles.forEach((vehicle) -> {
             GtfsRealtime.FeedEntity.Builder vehiclePositionEntity = GtfsRealtime.FeedEntity
                     .newBuilder()
-                    .setId(String.valueOf(vehicle.get("vehicle_title") != null ?
-                            vehicle.get("vehicle_title") :
-                            vehicle.get("unit_id")));
+                    .setId(String.valueOf(vehicle.get("number") != null ?
+                            vehicle.get("number") :
+                            vehicle.get("vehicle_title")));
             try {
                 // the Vehicle data input
                 GtfsRealtime.VehiclePosition vehiclePosition = createVehiclePosition(vehicle);
@@ -56,7 +56,7 @@ public class GtfsRealTimeVehicleFeed {
         GtfsRealtime.VehiclePosition.Builder vehiclePosition = GtfsRealtime.VehiclePosition.newBuilder();
         // the Description information
         GtfsRealtime.VehicleDescriptor.Builder vehicleDescriptor = GtfsRealtime.VehicleDescriptor.newBuilder()
-                .setId(String.valueOf(vehicle.get("number")));
+                .setId(String.valueOf(vehicle.get("vehicle_title")));
         // the Position information
         GtfsRealtime.Position.Builder position =
                 GtfsRealtime.Position.newBuilder()
