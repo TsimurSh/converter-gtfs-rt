@@ -14,13 +14,13 @@ public class VehicleUpdateServiceImpl implements VehicleUpdateService {
     private final VehicleRepository vehicleRepository = VehicleRepository.getInstance();
 
     @Value("${api.time-zone}")
-    private String TZ;
+    private String timeZone;
 
     @Override
     public String getVehiclePositions() {
         try {
             GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
-                    .create(vehicleRepository.getVehiclesList(), TZ);
+                    .create(vehicleRepository.getVehiclesList(), timeZone);
             log.info("Get : {} entities.", feed.getEntityList().size());
 
             return feed.toString();

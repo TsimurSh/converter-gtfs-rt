@@ -16,10 +16,10 @@ public class GtfsRealTimeVehicleFeed {
 
     private static final int MS_PER_SEC = 1_000;
 
-    private static String TZ;
+    private static String tz;
 
     public GtfsRealtime.FeedMessage create(List<Map<String, Object>> vehicles, String timeZone) {
-        TZ = timeZone;
+        tz = timeZone;
         return createMessage(vehicles);
     }
 
@@ -82,7 +82,7 @@ public class GtfsRealTimeVehicleFeed {
     }
 
     private long getTimestamp(String lastUpdate) {
-        ZoneId targetZoneId = ZoneId.of(TZ);
+        ZoneId targetZoneId = ZoneId.of(tz);
         Instant instant = Instant.parse(lastUpdate);
         ZonedDateTime zonedDateTime = instant.atZone(targetZoneId);
 

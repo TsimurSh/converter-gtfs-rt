@@ -18,19 +18,19 @@ public class ScheduledTaskService {
     private final VehicleRepository vehicleRepository = VehicleRepository.getInstance();
 
     @Value("${api.out-path}")
-    private String OUTPUT_PATH;
+    private String outputPath;
 
     @Value("${api.time-zone}")
-    private String TZ;
+    private String timeZone;
 
 
     @Scheduled(fixedRateString = "${api.refresh-interval}",
             timeUnit = TimeUnit.SECONDS)
     public void updateVehiclesPositionsProtoBufFile() {
-        try (FileOutputStream toFile = new FileOutputStream(OUTPUT_PATH)) {
+        try (FileOutputStream toFile = new FileOutputStream(outputPath)) {
 
             GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
-                    .create(vehicleRepository.getVehiclesList(), TZ);
+                    .create(vehicleRepository.getVehiclesList(), timeZone);
             log.info("Write to file: {} entities.", feed.getEntityList().size());
 
             //Writing to protobuf file

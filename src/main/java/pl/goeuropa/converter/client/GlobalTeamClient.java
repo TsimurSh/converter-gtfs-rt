@@ -22,16 +22,16 @@ public class GlobalTeamClient {
     private final VehicleRepository repository = VehicleRepository.getInstance();
 
     @Value("${api.security.token}")
-    private String TOKEN;
+    private String token;
 
     @Value("${api.uri-param}")
-    private String PARAM;
+    private String param;
 
     @Scheduled(fixedDelay = 5_000)
     public void getDataFromGlobalteam() {
         try {
             var response = restClient.get()
-                    .uri("?{PARAM}=" + TOKEN, PARAM)
+                    .uri("?{PARAM}=" + token, param)
                     .retrieve()
                     .body(String.class);
             JSONParser jsonObjectData = new JSONParser(response);

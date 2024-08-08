@@ -11,12 +11,12 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
     @Value("${api.base-url}")
-    private String BASE_PATH;
+    private String basePath;
 
     @Bean
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl(BASE_PATH)
+                .baseUrl(basePath)
                 .defaultHeaders(
                         httpHeaders -> {
                             httpHeaders.set(HttpHeaders.CONTENT_TYPE,
