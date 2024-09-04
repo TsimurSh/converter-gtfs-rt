@@ -1,12 +1,10 @@
 package pl.goeuropa.converter.repository;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import pl.goeuropa.converter.dto.VehiclesDto;
 
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 @Data
 public class VehicleRepository {
 
@@ -20,6 +18,5 @@ public class VehicleRepository {
         return singleton;
     }
 
-    private List<Map<String, Object>> vehiclesList;
-
+    private ConcurrentHashMap <String, VehiclesDto> vehiclesList = new ConcurrentHashMap<>();
 }

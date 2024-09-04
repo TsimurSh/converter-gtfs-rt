@@ -18,9 +18,9 @@ public class VehicleUpdateController {
 
     private final VehicleUpdateService service;
 
-    @GetMapping("/vehicles.text")
-    public String get() {
-        var asText = service.getVehiclePositions();
+    @GetMapping("/{department}.text")
+    public String get(@PathVariable("department") String department) {
+        var asText = service.getVehiclePositions(department);
         log.info("Get feed message include {} lines", asText.lines()
                 .count());
         return asText;

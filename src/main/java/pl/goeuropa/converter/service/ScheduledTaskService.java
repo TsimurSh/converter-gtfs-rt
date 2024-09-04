@@ -1,10 +1,11 @@
 package pl.goeuropa.converter.service;
 
 import com.google.transit.realtime.GtfsRealtime;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import pl.goeuropa.converter.configs.ApiProperties;
 import pl.goeuropa.converter.gtfsrt.GtfsRealTimeVehicleFeed;
 import pl.goeuropa.converter.repository.VehicleRepository;
 
@@ -13,31 +14,31 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ScheduledTaskService {
 
     private final VehicleRepository vehicleRepository = VehicleRepository.getInstance();
-
-    @Value("${api.out-path}")
-    private String outputPath;
-
-    @Value("${api.time-zone}")
-    private String timeZone;
+    private final ApiProperties properties;
 
 
     @Scheduled(fixedRateString = "${api.refresh-interval}",
             timeUnit = TimeUnit.SECONDS)
     public void updateVehiclesPositionsProtoBufFile() {
-        try (FileOutputStream toFile = new FileOutputStream(outputPath)) {
 
-            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
-                    .create(vehicleRepository.getVehiclesList(), timeZone);
-            log.info("Write to file: {} entities.", feed.getEntityList().size());
+        for (String key : properties.getTokens().keySet()) {
+            try (FileOutputStream toFile = new FileOutputStream(
+                    properties.getOutPath() + key + properties.getPostfix())) {
 
-            //Writing to protobuf file
-            feed.writeTo(toFile);
+                GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
+                        .create(vehicleRepository.getVehiclesList().get(key).getList(),
+                                properties.getTimeZone());
+                //Writing to protobuf file
+                feed.writeTo(toFile);
+                log.info("Write to file: {} entities.", feed.getEntityList().size());
 
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
+            } catch (Exception ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 }
