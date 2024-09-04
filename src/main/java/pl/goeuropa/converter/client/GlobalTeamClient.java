@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import pl.goeuropa.converter.configs.ApiProperties;
 import pl.goeuropa.converter.repository.VehicleRepository;
 
 import java.util.LinkedHashMap;
@@ -18,27 +19,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GlobalTeamClient {
 
+    private final ApiProperties properties;
     private final RestClient restClient;
     private final VehicleRepository repository = VehicleRepository.getInstance();
 
-    @Value("${api.security.token}")
-    private String token;
 
-    @Value("${api.uri-param}")
-    private String param;
 
     @Scheduled(fixedDelay = 5_000)
     public void getDataFromGlobalteam() {
         try {
             var response = restClient.get()
-                    .uri("?{PARAM}=" + token, param)
+                    .uri("?{uriParam}=" +
+                            properties.getTokens().get("sroda"),
+                            properties.getUriParam())
                     .retrieve()
                     .body(String.class);
             JSONParser jsonObjectData = new JSONParser(response);
 
             var data = (LinkedHashMap) jsonObjectData.object().get("data");
 
-            repository.setVehiclesList((List<Map<String, Object>>) data.get("units"));
+            repository.getVehiclesList().get("").setList((List<Map<String, Object>>) data.get("units"));
             log.debug("Get {} objects with vehicle locations", ((List<?>) data.get("units")).size());
 
         } catch (Exception e) {
