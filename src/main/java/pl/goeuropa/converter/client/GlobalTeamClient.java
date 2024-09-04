@@ -3,11 +3,12 @@ package pl.goeuropa.converter.client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.beans.factory.annotation.Value;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import pl.goeuropa.converter.configs.ApiProperties;
+import pl.goeuropa.converter.dto.VehiclesDto;
 import pl.goeuropa.converter.repository.VehicleRepository;
 
 import java.util.LinkedHashMap;
@@ -24,25 +25,32 @@ public class GlobalTeamClient {
     private final VehicleRepository repository = VehicleRepository.getInstance();
 
 
-
     @Scheduled(fixedDelay = 5_000)
     public void getDataFromGlobalteam() {
-        try {
-            var response = restClient.get()
-                    .uri("?{uriParam}=" +
-                            properties.getTokens().get("sroda"),
-                            properties.getUriParam())
-                    .retrieve()
-                    .body(String.class);
-            JSONParser jsonObjectData = new JSONParser(response);
+        for (String key : properties.getTokens().keySet()) {
+            try {
+                var response = getResponse(key);
 
-            var data = (LinkedHashMap) jsonObjectData.object().get("data");
+                JSONParser jsonObjectData = new JSONParser(response);
 
-            repository.getVehiclesList().get("").setList((List<Map<String, Object>>) data.get("units"));
-            log.debug("Get {} objects with vehicle locations", ((List<?>) data.get("units")).size());
+                var data = (LinkedHashMap) jsonObjectData.object().get("data");
 
-        } catch (Exception e) {
-            log.warn(e.getMessage());
+                repository.getVehiclesList().put(key, new VehiclesDto((List<Map<String, Object>>) data.get("units")));
+                log.debug("Get {} objects with vehicle locations", ((List<?>) data.get("units")).size());
+
+            } catch (Exception e) {
+                log.warn(e.getMessage());
+            }
         }
+    }
+
+    private @Nullable String getResponse(String key) {
+        var response = restClient.get()
+                .uri("?{uriParam}=" +
+                                properties.getTokens().get(key),
+                        properties.getUriParam())
+                .retrieve()
+                .body(String.class);
+        return response;
     }
 }

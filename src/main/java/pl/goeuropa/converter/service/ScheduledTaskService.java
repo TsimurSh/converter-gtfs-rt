@@ -24,17 +24,21 @@ public class ScheduledTaskService {
     @Scheduled(fixedRateString = "${api.refresh-interval}",
             timeUnit = TimeUnit.SECONDS)
     public void updateVehiclesPositionsProtoBufFile() {
-        try (FileOutputStream toFile = new FileOutputStream(properties.getOutPath())) {
 
-            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
-                    .create(vehicleRepository.getVehiclesList(), properties.getTimeZone());
-            log.info("Write to file: {} entities.", feed.getEntityList().size());
+        for (String key : properties.getTokens().keySet()) {
+            try (FileOutputStream toFile = new FileOutputStream(
+                    properties.getOutPath() + key + properties.getPostfix())) {
 
-            //Writing to protobuf file
-            feed.writeTo(toFile);
+                GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
+                        .create(vehicleRepository.getVehiclesList().get(key).getList(),
+                                properties.getTimeZone());
+                //Writing to protobuf file
+                feed.writeTo(toFile);
+                log.info("Write to file: {} entities.", feed.getEntityList().size());
 
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
+            } catch (Exception ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 }

@@ -18,5 +18,5 @@ public class VehicleRepository {
         return singleton;
     }
 
-    private ConcurrentHashMap <String, VehiclesDto> vehiclesList;
+    private ConcurrentHashMap <String, VehiclesDto> vehiclesList = new ConcurrentHashMap<>();
 }

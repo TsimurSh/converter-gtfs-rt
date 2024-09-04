@@ -16,6 +16,7 @@ public class ApiProperties {
     private String uriParam;
     private String outPath;
     private String timeZone;
+    private String postfix;
 
     private Map <String, String> tokens;
 }
