@@ -34,7 +34,7 @@ public class ScheduledTaskService {
                                 properties.getTimeZone());
                 //Writing to protobuf file
                 feed.writeTo(toFile);
-                log.info("Write to file: {} entities.", feed.getEntityList().size());
+                log.debug("Write to file: {} entities.", feed.getEntityList().size());
 
             } catch (Exception ex) {
                 log.error(ex.getMessage());
