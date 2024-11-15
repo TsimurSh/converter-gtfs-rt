@@ -13,4 +13,4 @@ Command:
 ## Check
 URL:
 
-localhost:8800/kombus/vehicles.text
+localhost:8800/kombus/kornik.text
