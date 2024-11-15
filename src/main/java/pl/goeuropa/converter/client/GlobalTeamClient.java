@@ -3,7 +3,6 @@ package pl.goeuropa.converter.client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.json.JSONParser;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -44,7 +43,7 @@ public class GlobalTeamClient {
         }
     }
 
-    private @Nullable String getResponse(String key) {
+    private String getResponse(String key) {
         var response = restClient.get()
                 .uri("?{uriParam}=" +
                                 properties.getTokens().get(key),
