@@ -67,7 +67,7 @@ public class GtfsRealTimeVehicleFeed {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
             LocalDateTime localDateTime = LocalDateTime.parse(lastUpdate, formatter);
             return localDateTime.atZone(ZoneId.of("UTC")).toEpochSecond();
-        } catch (Exception ex) {
+        } catch (Exception ex1) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime localDateTime = LocalDateTime.parse(lastUpdate, formatter);
