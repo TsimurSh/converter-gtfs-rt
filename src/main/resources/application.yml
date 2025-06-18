@@ -1,20 +1,20 @@
 server:
-  port: 8800
+  port: 8080
 
 api:
-## Set tokens here
-  tokens:
-    name: token
-## Source base URL
-  base-url: #http://url
-## Parameter
-  uri-param: key
-## Path to save protobuf file
-  out-path:
-    /var/
-## File name ending
-  postfix: _gtfs_vp.pb
-## Interval (sec) to refresh proto-buf file
-  refresh-interval: 6
-  time-zone: "Europe/Warsaw"
-
+  ## Source base URL
+  base-url: https://www.wroclaw.pl/open-data/datastore/dump/a9b3841d-e977-474e-9e86-8789e470a85a
+  ## Path to save protobuf file
+  out-path: /Users/timur/IdeaProjects/converter-kombus/src/main/resources/file.pb
+  ## Interval (sec) to refresh proto-buf file
+  refresh-interval: 15
+  get-interval: 15
+#  tokens:
+#    #    Środa Wlkp.
+#    sroda : f0a1262a266746e84866452e7f35eef00eaf980a
+#    #    Gmina Kórnik
+#    kornik : dceb6b874faf4bc574032b460650ab76b6a1ed5c
+#    #    ZTM Poznań
+#    poznan : 3286231113690278d42d2527ee6b4aee8d8ae554
+#  #   ALL_OLD Token
+#  #   52d0202609c77289e0489586e5e68de1d53baf21
