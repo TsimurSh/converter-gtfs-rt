@@ -21,6 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
+    implementation("com.opencsv:opencsv:5.9")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
