@@ -1,20 +1,10 @@
 server:
-  port: 8800
-
+  port: 8080
 api:
-## Set tokens here
-  tokens:
-    name: token
-## Source base URL
-  base-url: #http://url
-## Parameter
-  uri-param: key
-## Path to save protobuf file
+  ## Source base URL
+  base-url:
+  ## Path to save protobuf file
   out-path:
-    /var/
-## File name ending
-  postfix: _gtfs_vp.pb
-## Interval (sec) to refresh proto-buf file
-  refresh-interval: 6
-  time-zone: "Europe/Warsaw"
-
+  ## Interval (sec) to refresh proto-buf file
+  refresh-interval: 15
+  get-interval: 15

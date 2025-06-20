@@ -20,7 +20,7 @@ public class RestClientConfig {
                 .defaultHeaders(
                         httpHeaders -> {
                             httpHeaders.set(HttpHeaders.CONTENT_TYPE,
-                                    MediaType.APPLICATION_JSON_VALUE
+                                    MediaType.TEXT_PLAIN_VALUE
                             );
                         })
                 .build();
