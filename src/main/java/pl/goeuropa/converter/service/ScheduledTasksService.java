@@ -57,7 +57,7 @@ public class ScheduledTasksService {
                     .create(repository.getVehiclesList());
 //        Writing to protobuf file
             feed.writeTo(toFile);
-            log.debug("Write to file: {} entities.", feed.getEntityList().size());
+            log.info("Write to file: {} entities.", feed.getEntityList().size());
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
