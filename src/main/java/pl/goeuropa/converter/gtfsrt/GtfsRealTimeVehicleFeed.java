@@ -2,28 +2,19 @@ package pl.goeuropa.converter.gtfsrt;
 
 import com.google.transit.realtime.GtfsRealtime;
 import lombok.extern.slf4j.Slf4j;
+import pl.goeuropa.converter.dto.VehicleDto;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class GtfsRealTimeVehicleFeed {
 
     private static final int MS_PER_SEC = 1_000;
 
-    private static String tz;
-
-    public GtfsRealtime.FeedMessage create(List<Map<String, Object>> vehicles, String timeZone) {
-        tz = timeZone;
-        return createMessage(vehicles);
-    }
-
-    private GtfsRealtime.FeedMessage createMessage(List<Map<String, Object>> vehicles) {
+    public GtfsRealtime.FeedMessage create(List<VehicleDto> vehicles) {
 
         GtfsRealtime.FeedMessage.Builder message = GtfsRealtime.FeedMessage.newBuilder();
         GtfsRealtime.FeedHeader.Builder feedheader = GtfsRealtime.FeedHeader.newBuilder()
@@ -35,11 +26,11 @@ public class GtfsRealTimeVehicleFeed {
         vehicles.forEach((vehicle) -> {
             GtfsRealtime.FeedEntity.Builder vehiclePositionEntity = GtfsRealtime.FeedEntity
                     .newBuilder()
-                    .setId(String.valueOf(vehicle.get("unit_id") != null ?
-                            vehicle.get("unit_id") :
-                            vehicle.get("number")));
+                    .setId(String.valueOf(vehicle.getSideNumber() != null ?
+                            vehicle.getSideNumber() :
+                            vehicle.getId()));
             try {
-                // the Vehicle data input
+                // the VehicleDto data input
                 GtfsRealtime.VehiclePosition vehiclePosition = createVehiclePosition(vehicle);
                 vehiclePositionEntity.setVehicle(vehiclePosition);
                 message.addEntity(vehiclePositionEntity);
@@ -51,41 +42,40 @@ public class GtfsRealTimeVehicleFeed {
         return message.build();
     }
 
-    private GtfsRealtime.VehiclePosition createVehiclePosition(Map<String, Object> vehicle) {
+    private GtfsRealtime.VehiclePosition createVehiclePosition(VehicleDto vehicle) {
 
         GtfsRealtime.VehiclePosition.Builder vehiclePosition = GtfsRealtime.VehiclePosition.newBuilder();
         // the Description information
         GtfsRealtime.VehicleDescriptor.Builder vehicleDescriptor = GtfsRealtime.VehicleDescriptor.newBuilder()
-                .setId(String.valueOf(vehicle.get("number")));
+                .setId(String.valueOf(vehicle.getSideNumber()));
         // the Position information
         GtfsRealtime.Position.Builder position =
                 GtfsRealtime.Position.newBuilder()
-                        .setLatitude(getFloat(vehicle.get("lat")))
-                        .setLongitude(getFloat(vehicle.get("lng")))
-                        .setSpeed(getFloat(vehicle.get("speed")))
-                        .setBearing(getFloat(vehicle.get("direction")));
+                        .setLatitude((float) vehicle.getLat())
+                        .setLongitude((float) (vehicle.getLon()));
 
         vehiclePosition.setPosition(position);
         vehiclePosition.setVehicle(vehicleDescriptor);
-        vehiclePosition.setTimestamp(getTimestamp((String) vehicle.get("last_update")) * MS_PER_SEC
+//        vehiclePosition.setTrip(GtfsRealtime.TripDescriptor.newBuilder().setTripId(vehicle.getTrip()).build());
+        vehiclePosition.setTimestamp(getTimestamp(vehicle.getLastUpdate())
         );
         return vehiclePosition.build();
     }
 
-    private float getFloat(Object object) throws ClassCastException {
-        if (object instanceof BigDecimal bigDecimal) {
-            return bigDecimal.floatValue();
-        } else if (object instanceof BigInteger bigInteger) {
-            return bigInteger.floatValue();
-        }
-        return 0.0f;
-    }
-
     private long getTimestamp(String lastUpdate) {
-        ZoneId targetZoneId = ZoneId.of(tz);
-        Instant instant = Instant.parse(lastUpdate);
-        ZonedDateTime zonedDateTime = instant.atZone(targetZoneId);
-
-        return zonedDateTime.toEpochSecond();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+            LocalDateTime localDateTime = LocalDateTime.parse(lastUpdate, formatter);
+            return localDateTime.atZone(ZoneId.of("UTC")).toEpochSecond();
+        } catch (Exception ex1) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime localDateTime = LocalDateTime.parse(lastUpdate, formatter);
+                return localDateTime.atZone(ZoneId.of("UTC")).toEpochSecond();
+            } catch (Exception ex2) {
+                log.warn("Something get wrong while parsing timestamp", ex2);
+                throw ex2;
+            }
+        }
     }
 }
