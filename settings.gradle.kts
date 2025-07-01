@@ -1,1 +1,1 @@
-rootProject.name = "converter-gtfs-rt"
+rootProject.name = "converter-gtfs-rt-wroc"
