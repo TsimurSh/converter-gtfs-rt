@@ -56,8 +56,8 @@ public class GtfsRealTimeVehicleFeed {
 
         vehiclePosition.setPosition(position);
         vehiclePosition.setVehicle(vehicleDescriptor);
-//        vehiclePosition.setTrip(GtfsRealtime.TripDescriptor.newBuilder().setTripId(vehicle.getTrip()).build());
-        vehiclePosition.setTimestamp(getTimestamp(vehicle.getLastUpdate()) * MS_PER_SEC
+        // - 7200 for calculate to UTC
+        vehiclePosition.setTimestamp((getTimestamp(vehicle.getLastUpdate()) - 7200) * MS_PER_SEC
         );
         return vehiclePosition.build();
     }
