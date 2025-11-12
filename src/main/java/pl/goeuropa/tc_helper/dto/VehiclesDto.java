@@ -1,4 +1,4 @@
-package pl.goeuropa.converter.dto;
+package pl.goeuropa.tc_helper.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

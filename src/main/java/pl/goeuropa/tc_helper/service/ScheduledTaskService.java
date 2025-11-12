@@ -1,16 +1,14 @@
-package pl.goeuropa.converter.service;
+package pl.goeuropa.tc_helper.service;
 
 import com.google.transit.realtime.GtfsRealtime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pl.goeuropa.converter.configs.ApiProperties;
-import pl.goeuropa.converter.gtfsrt.GtfsRealTimeVehicleFeed;
-import pl.goeuropa.converter.repository.VehicleRepository;
+import pl.goeuropa.tc_helper.configs.ApiProperties;
+import pl.goeuropa.tc_helper.gtfsrt.GtfsRealTimeVehicleFeed;
+import pl.goeuropa.tc_helper.repository.VehicleRepository;
 
 import java.io.FileOutputStream;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -21,8 +19,8 @@ public class ScheduledTaskService {
     private final ApiProperties properties;
 
 
-    @Scheduled(fixedRateString = "${api.refresh-interval}",
-            timeUnit = TimeUnit.SECONDS)
+//    @Scheduled(fixedRateString = "${api.refresh-interval:15}",
+//            timeUnit = TimeUnit.SECONDS)
     public void updateVehiclesPositionsProtoBufFile() {
 
         for (String key : properties.getTokens().keySet()) {

@@ -1,4 +1,4 @@
-package pl.goeuropa.converter.gtfsrt;
+package pl.goeuropa.tc_helper.gtfsrt;
 
 import com.google.transit.realtime.GtfsRealtime;
 import lombok.extern.slf4j.Slf4j;
