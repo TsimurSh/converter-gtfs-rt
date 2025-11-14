@@ -13,4 +13,9 @@ Command:
 ## Check
 URL:
 
-localhost:8800/kombus/kornik.text
+GET /api/v1/vehicles/positions?agency=agency
+
+GET /api/v1/vehicles/assignments?agency=agency
+
+POST /api/v1/vehicles?to=blockAssignments
+

@@ -33,7 +33,7 @@ public class VehicleUpdatesController {
             @RequestBody AssignmentDto assignments,
             @RequestParam("to") String to) {
         try {
-            if (to.equals("BlockAssignments")) return service.addAllAssignments(assignments);
+            if (to.equals("blockAssignments")) return service.addAllAssignments(assignments);
             log.info("Receive {} assignments with key {}", assignments.getAssignmentsList().size(), assignments.getKey());
         } catch (Exception e) {
             log.error(e.getMessage());
