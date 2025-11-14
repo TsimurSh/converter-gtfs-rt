@@ -2,19 +2,22 @@ server:
   port: 8800
 
 api:
-## Set tokens here
+  tc-base-urls:
+      agency : #http://url
+  ## Source base URL
+  base-url: #http://url
+  ## Set tokens here
   tokens:
     name: token
-## Source base URL
-  base-url: #http://url
-## Parameter
+  ## Interval (sec) to getting data from source
+  get-interval: 10
+  ## Parameter name
   uri-param: key
-## Path to save protobuf file
-  out-path:
-    /var/
-## File name ending
+  ## Path to save protobuf file
+  out-path: /var/gtfsrt/
+  ## File name ending
   postfix: _gtfs_vp.pb
-## Interval (sec) to refresh proto-buf file
-  refresh-interval: 6
+  ## Interval (sec) to refresh proto-buf file
+  refresh-interval: 15
   time-zone: "Europe/Warsaw"
 

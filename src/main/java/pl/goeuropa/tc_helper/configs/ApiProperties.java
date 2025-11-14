@@ -1,4 +1,4 @@
-package pl.goeuropa.converter.configs;
+package pl.goeuropa.tc_helper.configs;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +19,5 @@ public class ApiProperties {
     private String postfix;
 
     private Map <String, String> tokens;
+    private Map <String, String> tcBaseUrls;
 }
