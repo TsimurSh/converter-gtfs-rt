@@ -1,9 +1,9 @@
 package pl.goeuropa.tc_helper.repository;
 
 import lombok.Data;
-import pl.goeuropa.tc_helper.dto.Assignment;
-import pl.goeuropa.tc_helper.dto.AssignmentDto;
-import pl.goeuropa.tc_helper.dto.VehiclesDto;
+import pl.goeuropa.tc_helper.model.Assignment;
+import pl.goeuropa.tc_helper.model.dto.AssignmentDto;
+import pl.goeuropa.tc_helper.model.dto.VehiclesDto;
 
 import java.util.List;
 import java.util.Map;

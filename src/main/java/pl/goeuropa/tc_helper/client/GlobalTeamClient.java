@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import pl.goeuropa.tc_helper.configs.ApiProperties;
-import pl.goeuropa.tc_helper.dto.VehiclesDto;
+import pl.goeuropa.tc_helper.model.dto.VehiclesDto;
 import pl.goeuropa.tc_helper.repository.VehicleRepository;
 
 import java.util.LinkedHashMap;
@@ -30,7 +30,7 @@ public class GlobalTeamClient {
     }
 
 
-    @Scheduled(fixedRateString = "${api.refresh-interval:15}",
+    @Scheduled(fixedRateString = "${api.get-interval:14}",
             timeUnit = TimeUnit.SECONDS)
     public void getDataFromGlobalteam() {
         for (String key : properties.getTokens().keySet()) {
