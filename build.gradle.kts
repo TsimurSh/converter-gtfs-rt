@@ -1,8 +1,8 @@
 plugins {
     java
-    kotlin("jvm") version "1.9.22"
-    id("org.springframework.boot") version "3.3.2"
-    id("io.spring.dependency-management") version "1.1.5"
+    kotlin("jvm") version "2.1.10"
+    id("org.springframework.boot") version "3.3.10"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 configurations {
@@ -17,9 +17,12 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    implementation("org.springframework.retry:spring-retry:2.0.6")
+    implementation("org.springframework:spring-aspects:6.2.12")
+
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
     implementation("com.opencsv:opencsv:5.9")
 
@@ -29,6 +32,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jeasy:easy-random-core:5.0.0")
 }
+
+java { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 
 tasks.withType<Test> {
     useJUnitPlatform()

@@ -1,10 +1,19 @@
-server:
-  port: 8080
 api:
+  tc-base-urls:
+      agency : #http://url
   ## Source base URL
-  base-url:
+  base-url: #http://url
+  ## Set tokens here
+  tokens:
+    name: token
+  ## Interval (sec) to getting data from source
+  get-interval: 10
+  ## Parameter name
+  uri-param: key
   ## Path to save protobuf file
-  out-path:
+  out-path: /var/gtfsrt/
+  ## File name ending
+  postfix: _gtfs_vp.pb
   ## Interval (sec) to refresh proto-buf file
   refresh-interval: 15
-  get-interval: 15
+  time-zone: "Europe/Warsaw"

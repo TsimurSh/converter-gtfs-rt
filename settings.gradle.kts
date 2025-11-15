@@ -1,1 +1,1 @@
-rootProject.name = "converter-gtfs-rt-wroc"
+rootProject.name = "utils-kombus"
