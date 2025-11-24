@@ -13,7 +13,8 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "api")
 public class ApiProperties {
 
-    private String uriParam;
+    private String user;
+    private String password;
     private String outPath;
     private String timeZone;
     private String postfix;
