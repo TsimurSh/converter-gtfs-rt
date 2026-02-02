@@ -26,4 +26,16 @@ public class VehicleUpdateServiceImpl implements VehicleUpdateService {
             return ex.getMessage() + ex.getCause();
         }
     }
+
+    public GtfsRealtime.FeedMessage getPBVehiclePositions() {
+        try {
+            GtfsRealtime.FeedMessage feed = new GtfsRealTimeVehicleFeed()
+                    .create(repository.getVehiclesList());
+            log.info("Get : {} entities.", feed.getEntityList().size());
+            return feed;
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            throw ex;
+        }
+    }
 }

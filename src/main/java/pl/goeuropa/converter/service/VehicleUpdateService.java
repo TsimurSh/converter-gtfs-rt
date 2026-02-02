@@ -1,7 +1,10 @@
 package pl.goeuropa.converter.service;
 
+import com.google.transit.realtime.GtfsRealtime;
+
 public interface VehicleUpdateService {
 
-    // to view as json
     String getVehiclePositions();
+
+    GtfsRealtime.FeedMessage getPBVehiclePositions();
 }

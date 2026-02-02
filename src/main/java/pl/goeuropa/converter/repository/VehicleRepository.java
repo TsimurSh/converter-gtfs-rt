@@ -4,7 +4,6 @@ import lombok.Data;
 import pl.goeuropa.converter.dto.VehicleDto;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data

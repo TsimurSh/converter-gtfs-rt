@@ -3,6 +3,8 @@ server:
 api:
   ## Source base URL
   base-url:
+  ## Source of params
+  html-path:
   ## Path to save protobuf file
   out-path:
   ## Interval (sec) to refresh proto-buf file

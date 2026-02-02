@@ -22,6 +22,7 @@ dependencies {
 
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
     implementation("com.opencsv:opencsv:5.9")
+    implementation("org.jsoup:jsoup:1.17.2")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
