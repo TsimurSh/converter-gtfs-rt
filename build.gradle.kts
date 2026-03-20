@@ -24,6 +24,7 @@ dependencies {
 
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
+    implementation("com.opencsv:opencsv:5.9")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
