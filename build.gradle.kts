@@ -22,6 +22,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry:2.0.6")
     implementation("org.springframework:spring-aspects:6.2.12")
 
+    implementation ("org.apache.httpcomponents.client5:httpclient5")
     implementation("com.google.transit:gtfs-realtime-bindings:0.0.4")
 
     compileOnly("org.projectlombok:lombok")

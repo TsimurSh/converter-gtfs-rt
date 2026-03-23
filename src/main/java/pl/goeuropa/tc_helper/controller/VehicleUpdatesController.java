@@ -53,7 +53,7 @@ public class VehicleUpdatesController {
         throw new IllegalArgumentException("Check URI or JSON-body that you sent");
     }
 
-    @PostMapping("/key/${key}/agency/${agency}/command/vehiclesToBlockAssignments")
+    @PostMapping("/key/{key}/agency/{agency}/command/vehiclesToBlockAssignments")
     public ApiResponseDto putAllAssignmentsForVeritum(
             @RequestBody AssignmentDto assignments,
             @PathVariable String key, @PathVariable String agency) {
