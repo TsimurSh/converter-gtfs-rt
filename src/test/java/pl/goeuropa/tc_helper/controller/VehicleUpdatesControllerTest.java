@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.goeuropa.tc_helper.model.Assignment;
 import pl.goeuropa.tc_helper.model.dto.AssignmentDto;
@@ -27,7 +28,7 @@ class VehicleUpdatesControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     VehicleUpdatesService service;
 
     @Test
