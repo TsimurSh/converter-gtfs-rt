@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.goeuropa.tc_helper.model.Assignment;
@@ -16,10 +16,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(VehicleUpdatesController.class)
+@WithMockUser(roles = "ADMIN")
 class VehicleUpdatesControllerTest {
 
     @Autowired
@@ -77,6 +79,7 @@ class VehicleUpdatesControllerTest {
         when(service.addAllAssignments(any(AssignmentDto.class))).thenReturn("ok");
 
         mockMvc.perform(post("/api/v1/vehicles")
+                        .with(csrf())
                         .param("to", "blockAssignments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -93,6 +96,7 @@ class VehicleUpdatesControllerTest {
 
         assertThrows(Exception.class, () ->
                 mockMvc.perform(post("/api/v1/vehicles")
+                        .with(csrf())
                         .param("to", "unknown")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -109,6 +113,7 @@ class VehicleUpdatesControllerTest {
         when(service.addAllAssignments(any(AssignmentDto.class))).thenThrow(new RuntimeException("service error"));
 
         mockMvc.perform(post("/api/v1/vehicles")
+                        .with(csrf())
                         .param("to", "blockAssignments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -121,6 +126,7 @@ class VehicleUpdatesControllerTest {
         when(service.sendAssignmentsToAgency("agency1")).thenReturn("sent");
 
         mockMvc.perform(post("/api/v1/vehicles/assignments")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"agency\": \"agency1\"}"))
                 .andExpect(status().isOk())
@@ -131,6 +137,7 @@ class VehicleUpdatesControllerTest {
     void manualRetry_invalidBody_throws() {
         assertThrows(Exception.class, () ->
                 mockMvc.perform(post("/api/v1/vehicles/assignments")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" "))
         );
