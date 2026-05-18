@@ -21,7 +21,6 @@ Requirement:
 ./gradlew bootRun                          # run the application
 ./gradlew build                            # compile + test + package
 ./gradlew test                             # run all tests
-./gradlew test --tests <ClassName>         # single test class
 ./gradlew clean build                      # clean rebuild
 ```
 
@@ -89,10 +88,6 @@ curl -u "$API_USER:$API_PASSWORD" \
         ]
       }'
 ```
-
-When to use this over `POST /api/v1/vehicles?to=blockAssignments`:
-- The caller is a TransitClock-compatible client and you don't want to change its URL template.
-- You want the unchecked variant — `?to=...` validates the query param and throws on mismatch; this one just forwards.
 
 ## Response shape
 
