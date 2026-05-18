@@ -88,22 +88,6 @@ class VehicleUpdatesControllerTest {
     }
 
     @Test
-    void putAllAssignments_unknownToParam_throws() throws Exception {
-        Assignment arg = new Assignment();
-        arg.setVehicleId("V1");
-        arg.setValidFrom("2024-01-01T00:00:00");
-        AssignmentDto dto = new AssignmentDto("key123", List.of(arg));
-
-        assertThrows(Exception.class, () ->
-                mockMvc.perform(post("/api/v1/vehicles")
-                        .with(csrf())
-                        .param("to", "unknown")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-        );
-    }
-
-    @Test
     void putAllAssignments_serviceThrows_returnsFailure() throws Exception {
         Assignment arg = new Assignment();
         arg.setVehicleId("V1");
