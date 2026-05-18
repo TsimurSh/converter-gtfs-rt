@@ -36,10 +36,8 @@ Returns the current GTFS-Realtime `FeedMessage` for the given agency as a **text
 ### GET `/api/v1/vehicles/assignments?agency=<agency>`
 Returns the list of `Assignment` objects already segregated for the given agency (i.e. the subset whose `vehicleId` is known to that agency). Empty list if none.
 
-### POST `/api/v1/vehicles?to=blockAssignments`
+### POST `/api/v1/vehicles`
 Accepts a bundle of assignments, stores them, then asynchronously fans them out to every agency in `api.tc-base-urls` (filtered per agency by matching `vehicleId` against the polled vehicle list).
-
-`to` must equal `blockAssignments` — any other value raises `IllegalArgumentException`.
 
 Body:
 ```json
@@ -65,7 +63,7 @@ Manual retry: re-sends the already-segregated assignments for a given agency to 
 **TransitClock-shaped passthrough.** This endpoint mirrors the URL layout that downstream TransitClock instances expose at `/command/vehiclesToBlockAssignments` (see `TransitclockClient`), so a client already wired for TransitClock can post here unchanged and let this service take over the fan-out.
 
 Behaviour:
-- Accepts the same `AssignmentDto` body as `POST /api/v1/vehicles?to=blockAssignments`.
+- Accepts the same `AssignmentDto` body as `POST /api/v1/vehicles`.
 - Delegates straight to `VehicleUpdatesService.addAllAssignments(body)` — i.e. stores the bundle, then spawns a background thread that filters per agency in `api.tc-base-urls` and POSTs each subset to the corresponding TransitClock with `@Retryable` retries.
 - The authoritative key is `body.key` (used as the storage map key and forwarded as the outgoing `AssignmentDto.key`); the destination agencies come from `api.tc-base-urls`, not from `{agency}`.
 - Returns `ApiResponseDto` — `{ "success": true, "message": "{<vehicleId>=true, ...}" }` on success, `{ "success": false, "message": "<error>" }` on failure (HTTP 200 in both cases; this handler does not propagate the exception).
